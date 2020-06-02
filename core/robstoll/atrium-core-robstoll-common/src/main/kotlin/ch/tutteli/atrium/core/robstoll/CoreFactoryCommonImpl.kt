@@ -15,10 +15,7 @@ import ch.tutteli.atrium.core.robstoll.lib.reporting.translating.CoroutineBasedL
 import ch.tutteli.atrium.core.robstoll.lib.reporting.translating.TranslationSupplierBasedTranslator
 import ch.tutteli.atrium.creating.*
 import ch.tutteli.atrium.reporting.*
-import ch.tutteli.atrium.reporting.translating.Locale
-import ch.tutteli.atrium.reporting.translating.LocaleOrderDecider
-import ch.tutteli.atrium.reporting.translating.TranslationSupplier
-import ch.tutteli.atrium.reporting.translating.Translator
+import ch.tutteli.atrium.reporting.translating.*
 import kotlin.reflect.KClass
 
 /**
@@ -29,6 +26,12 @@ abstract class CoreFactoryCommonImpl : CoreFactoryCommon {
     final override fun <T> newReportingAssertionContainer(
         assertionCheckerDecorator: ReportingAssertionContainer.AssertionCheckerDecorator<T>
     ): ReportingAssertionContainer<T> = ReportingAssertionContainerImpl(assertionCheckerDecorator)
+
+    override fun <T> newRootExpect(
+        maybeSubject: Option<T>,
+        assertionVerb: Translatable,
+        options: ExpectOptions<T>?
+    ): RootExpect<T> = RootExpectImpl(maybeSubject, assertionVerb, options)
 
 
     final override fun <T, R> newFeatureExpect(
@@ -42,7 +45,6 @@ abstract class CoreFactoryCommonImpl : CoreFactoryCommon {
         previousExpect,
         maybeSubject,
         featureConfig,
-        coreFactory.newFeatureAssertionChecker(previousExpect),
         assertions
     )
 

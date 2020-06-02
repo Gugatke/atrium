@@ -8,50 +8,6 @@ import ch.tutteli.atrium.core.Some
 import ch.tutteli.atrium.reporting.translating.Translatable
 
 /**
- * Represents the root of an [Expect] chain, intended as extension point for functionality
- * which should only be available on the root.
- *
- * It exposes the [config] in contrast to [Expect].
- */
-interface RootExpect<T> : Expect<T> {
-    /**
-     * The chosen [RootExpectConfig].
-     */
-    @Suppress("DEPRECATION" /* OptIn is only available since 1.3.70 which we cannot use if we want to support 1.2 */)
-    @UseExperimental(ExperimentalExpectConfig::class)
-    val config: RootExpectConfig
-}
-
-/**
- * Represents an [Expect] which results due to a change of the [Expect.maybeSubject] to a feature of the subject.
- *
- * A change can for instance be a feature extraction such as `expect(listOf(1)).get(0)`
- * but also just a feature assertion such as `expect(listOf(1)).feature { f(it::size) }`
- *
- * It exposes the [config] as well as the already specified [Assertion]s (see [getAssertions]) in contrast to [Expect].
- */
-interface FeatureExpect<T, R> : Expect<R> {
-
-    /**
-     * The [Expect] from which this feature is derived/was extracted.
-     */
-    val previousExpect: Expect<T>
-
-    /**
-     * The chosen [FeatureExpectConfig].
-     */
-    @Suppress("DEPRECATION" /* OptIn is only available since 1.3.70 which we cannot use if we want to support 1.2 */)
-    @UseExperimental(ExperimentalExpectConfig::class)
-    val config: FeatureExpectConfig
-
-    /**
-     * The so far specified [Assertion]s for this feature.
-     */
-    fun getAssertions(): List<Assertion>
-}
-
-
-/**
  * Represents a container for [Assertion]s and offers the possibility to [addAssertion]s which are reported
  * in case they do not hold.
  *

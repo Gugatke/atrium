@@ -3,8 +3,7 @@ package ch.tutteli.atrium.domain.builders.reporting.impl.verb
 import ch.tutteli.atrium.core.Option
 import ch.tutteli.atrium.core.coreFactory
 import ch.tutteli.atrium.core.getOrElse
-import ch.tutteli.atrium.creating.ReportingAssertionContainer
-import ch.tutteli.atrium.creating.RootExpect
+import ch.tutteli.atrium.creating.*
 import ch.tutteli.atrium.domain.builders.reporting.ExpectBuilder
 import ch.tutteli.atrium.domain.builders.reporting.ExpectOptions
 import ch.tutteli.atrium.reporting.SHOULD_NOT_BE_SHOWN_TO_THE_USER_BUG
@@ -36,17 +35,22 @@ class FinalStepImpl<T>(
 ) : ExpectBuilder.FinalStep<T> {
 
     override fun build(): RootExpect<T> =
-        coreFactory.newReportingAssertionContainer(
-            ReportingAssertionContainer.AssertionCheckerDecorator.create(
-                options?.assertionVerb ?: assertionVerb,
-                maybeSubject,
-                options?.representationInsteadOfSubject?.let { provider ->
-                    this.maybeSubject.fold({ null }) { provider(it) }
-                } ?: maybeSubject.getOrElse {
-                    // a RootExpect without a defined subject is almost certain a bug
-                    Text(SHOULD_NOT_BE_SHOWN_TO_THE_USER_BUG)
-                },
-                coreFactory.newThrowingAssertionChecker(options?.reporter ?: reporter)
-            )
+        coreFactory.newRootExpect(
+            maybeSubject,
+            assertionVerb,
+            options
         )
+//        coreFactory.newReportingAssertionContainer(
+//            ReportingAssertionContainer.AssertionCheckerDecorator.create(
+//                options?.assertionVerb ?: assertionVerb,
+//                maybeSubject,
+//                options?.representationInsteadOfSubject?.let { provider ->
+//                    this.maybeSubject.fold({ null }) { provider(it) }
+//                } ?: maybeSubject.getOrElse {
+//                    // a RootExpect without a defined subject is almost certain a bug
+//                    Text(SHOULD_NOT_BE_SHOWN_TO_THE_USER_BUG)
+//                },
+//                coreFactory.newThrowingAssertionChecker(options?.reporter ?: reporter)
+//            )
+//        )
 }

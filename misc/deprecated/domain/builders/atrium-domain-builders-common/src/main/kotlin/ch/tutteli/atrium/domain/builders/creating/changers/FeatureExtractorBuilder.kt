@@ -2,6 +2,7 @@ package ch.tutteli.atrium.domain.builders.creating.changers
 
 import ch.tutteli.atrium.core.*
 import ch.tutteli.atrium.creating.Expect
+import ch.tutteli.atrium.creating.FeatureOptions
 import ch.tutteli.atrium.domain.builders.creating.changers.impl.featureextractor.*
 import ch.tutteli.atrium.domain.creating.NewFeatureAssertions
 import ch.tutteli.atrium.domain.creating.changers.ExtractedFeaturePostStep
@@ -308,30 +309,7 @@ interface FeatureExtractorBuilder {
 }
 
 
-/**
- * Additional (non-mandatory) options for the [FeatureExtractorBuilder] to create an [Expect].
- *
- * @property description Defines a custom description if not null.
- * @property representationInsteadOfFeature Defines a custom representation based on a present subject if not null.
- */
-data class FeatureOptions<R>(
-    val description: Translatable? = null,
-    val representationInsteadOfFeature: ((R) -> Any)? = null
-) {
-    /**
-     * Merges the given [options] with this object creating a new [FeatureOptions]
-     * where defined properties in [options] will have precedence over properties defined in this instance.
-     *
-     * For instance, this object has defined [representationInsteadOfFeature] (meaning it is not `null`) and
-     * the given [options] as well, then the resulting [FeatureOptions] will have the
-     * [representationInsteadOfFeature] of [options].
-     */
-    fun merge(options: FeatureOptions<R>): FeatureOptions<R> =
-        FeatureOptions(
-            options.description ?: description,
-            options.representationInsteadOfFeature ?: representationInsteadOfFeature
-        )
-}
+
 
 @Suppress("FunctionName")
 fun <R> FeatureOptions(configuration: FeatureExtractorBuilder.OptionsChooser<R>.() -> Unit): FeatureOptions<R> =

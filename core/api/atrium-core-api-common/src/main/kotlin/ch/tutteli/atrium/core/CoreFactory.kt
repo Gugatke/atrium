@@ -206,6 +206,14 @@ interface CoreFactoryCommon {
     ): ReportingAssertionContainer<T>
 
 
+    @Suppress("DEPRECATION" /* OptIn is only available since 1.3.70 which we cannot use if we want to support 1.2 */)
+    @UseExperimental(ExperimentalExpectConfig::class)
+    fun <T> newRootExpect(
+        maybeSubject: Option<T>,
+        assertionVerb: Translatable,
+        options: ExpectOptions<T>?
+    ): RootExpect<T>
+
     //TODO #280 add KDoc
     @Suppress("DEPRECATION" /* OptIn is only available since 1.3.70 which we cannot use if we want to support 1.2 */)
     @UseExperimental(ExperimentalExpectConfig::class)

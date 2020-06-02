@@ -9,6 +9,12 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.math.BigDecimal
 
+class A: Spek({
+    test("hello"){
+        expect(1).toBe(1).isLessThan(2).isGreaterThan(0)
+    }
+})
+
 class BigDecimalAssertionsSpec : Spek({
     include(object : ch.tutteli.atrium.specs.integration.BigDecimalAssertionsSpec(
         @Suppress("DEPRECATION") fun1<BigDecimal, BigDecimal>(Expect<BigDecimal>::toBe),

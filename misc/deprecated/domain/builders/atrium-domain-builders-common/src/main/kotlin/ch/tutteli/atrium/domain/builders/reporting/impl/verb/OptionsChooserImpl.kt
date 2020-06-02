@@ -1,5 +1,6 @@
 package ch.tutteli.atrium.domain.builders.reporting.impl.verb
 
+import ch.tutteli.atrium.creating.ExpectOptions
 import ch.tutteli.atrium.domain.builders.reporting.ExpectBuilder
 import ch.tutteli.atrium.domain.builders.reporting.ExpectOptions
 import ch.tutteli.atrium.reporting.Reporter
